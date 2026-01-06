@@ -1,0 +1,68 @@
+# Podman Compose configuration for CMS
+# Client Management System - Interim Version
+# This configuration runs the backend service with PostgreSQL
+
+version: '3.8'
+
+services:
+    # PostgreSQL Database Service
+    cms-db:
+        image: docker.io/postgres:15-alpine
+        container_name: cms-db
+        environment:
+            - PGDATA=/var/lib/postgresql/data/pgdb
+            - POSTGRES_USER=cms_user
+            - POSTGRES_PASSWORD=cms_password
+            - POSTGRES_DB=cms_db
+        volumes:
+            # Map data volume for persistent database storage
+            - cms_data:/var/lib/postgresql/data:Z
+            # Initialize database schema
+            - ./src/cms-backend/database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:Z
+            - ./src/cms-backend/database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:Z
+        restart: unless-stopped
+        networks:
+            - cms_network
+        ports:
+            # Expose PostgreSQL port for external access (optional, for debugging)
+            - "5432:5432"
+
+    # CMS Backend Service
+    cms-backend:
+        build:
+            context: ./src/cms-backend
+            dockerfile: Containerfile
+        image: localhost/cms-backend:latest
+        container_name: cms-backend
+        ports:
+            - "3000:3000"
+        depends_on:
+            - cms-db
+        environment:
+            # Database Configuration
+            - DB_HOST=cms-db
+            - DB_PORT=5432
+            - DB_NAME=cms_db
+            - DB_USER=cms_user
+            - DB_PASSWORD=cms_password
+            
+            # JWT Configuration
+            - JWT_SECRET=cms-jwt-secret-key-change-in-production
+            
+            # Server Configuration
+            - PORT=3000
+            - NODE_ENV=development
+        restart: unless-stopped
+        networks:
+            - cms_network
+
+# Named volumes for persistent data storage
+volumes:
+    cms_data:
+        driver: local
+
+# Network for inter-container communication
+networks:
+    cms_network:
+        driver: bridge
+
