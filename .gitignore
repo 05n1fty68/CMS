@@ -1,7 +1,4 @@
-# Exclude InvenTree reference folder
-InvenTree/
-
-# Node.js
+# Dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
@@ -12,14 +9,6 @@ yarn-error.log*
 .env.local
 .env.*.local
 
-# Logs
-logs/
-*.log
-
-# OS files
-.DS_Store
-Thumbs.db
-
 # IDE
 .vscode/
 .idea/
@@ -27,9 +16,34 @@ Thumbs.db
 *.swo
 *~
 
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
 # Build outputs
 dist/
 build/
+*.pid
+*.seed
+*.pid.lock
 
-# Podman volumes and data
-*.data/
+# Coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Podman/Docker
+*.pid
+*.log
+
+# InvenTree reference folder (to be excluded from git)
+InvenTree/
+

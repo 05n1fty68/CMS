@@ -2,395 +2,275 @@
 
 A simple, self-hosted, open-source web application for client management, designed for small businesses, freelancers, and startups.
 
-**Interim Version - Approximately 50-60% Complete**
+## Project Status: INTERIM PHASE
 
-This project is currently at the **INTERIM phase** of development. Several features are intentionally incomplete or stubbed to demonstrate planned future work for the final submission.
+This project is currently at the **INTERIM development phase** (approximately 50-60% complete). Several features are intentionally incomplete or simplified to demonstrate planned future work for the final submission.
 
----
+### Implemented Features
 
-## Project Overview
+- ✅ User authentication (login/register with JWT)
+- ✅ Basic role system (admin, user)
+- ✅ Client CRUD operations (Create, Read, Update, Soft Delete)
+- ✅ Basic dashboard with statistics
+- ✅ RESTful API architecture
+- ✅ PostgreSQL database with proper schema
+- ✅ Podman containerization support
+- ✅ Clean, minimal user interface
 
-The Client Management System (CMS) is a Final Year Project for a Diploma in Information Technology. It provides basic client management functionality without the cost, complexity, or vendor lock-in of enterprise CRM platforms.
+### Partially Implemented / TODO
 
-### Key Features (Interim Version)
+- ⚠️ Interaction tracking (database table exists, endpoints return placeholders)
+- ⚠️ Search and filtering (UI elements exist, backend logic marked with TODO)
+- ⚠️ Reporting (basic client count only, export functionality TODO)
+- ⚠️ Role-based access control (basic enforcement, needs enhancement)
 
-#### ✅ Implemented
-- **User Authentication**: Login with email and password, JWT-based authentication
-- **Client Management**: Create, view, update, and soft delete client records
-- **Basic User Interface**: Login page, dashboard, client list, and client form
-- **RESTful API**: Express.js backend with PostgreSQL database
-- **Podman Containerization**: Backend runs in Podman containers
+### Not Implemented (Excluded for Interim)
 
-#### 🚧 Partially Implemented
-- **Interaction Tracking**: Database table exists, but functionality is minimal
-- **Search & Filter**: UI elements exist, backend logic marked with `TODO`
-- **Reporting**: Basic client count summary only
-- **Role-Based Access Control**: Authorization middleware exists, limited enforcement
+- ❌ Advanced analytics dashboards
+- ❌ Marketing automation
+- ❌ Email integrations
+- ❌ Sales pipelines
+- ❌ AI-powered features
+- ❌ Multi-language support
+- ❌ Mobile applications
 
-#### ❌ Not Implemented (Final Version)
-- Advanced analytics dashboards
-- Marketing automation features
-- Email or third-party integrations
-- Sales pipelines and forecasting
-- AI-powered features
-- Multi-language support
-- Native mobile applications
+## Architecture
 
----
-
-## Technology Stack
-
-### Backend
-- **Node.js** with **Express.js**
-- **PostgreSQL** database
-- **JWT** for authentication
-- **bcryptjs** for password hashing
-
-### Frontend
-- **HTML5**, **CSS3**, **Vanilla JavaScript**
-- No frameworks or build tools (interim version)
-
-### Infrastructure
-- **Podman** for containerization
-- **PostgreSQL** containerized service
-
----
-
-## Project Structure
-
-```
-.
-├── src/
-│   ├── cms-backend/          # Backend API (Node.js/Express)
-│   │   ├── config/          # Configuration files
-│   │   │   └── database.js  # PostgreSQL connection
-│   │   ├── database/        # Database schema and seeds
-│   │   │   ├── schema.sql   # Database schema
-│   │   │   └── seed.sql     # Sample data
-│   │   ├── middleware/      # Express middleware
-│   │   │   └── auth.js      # JWT authentication
-│   │   ├── routes/          # API routes
-│   │   │   ├── auth.js      # Authentication routes
-│   │   │   ├── clients.js   # Client CRUD routes
-│   │   │   └── interactions.js # Interaction routes (stubbed)
-│   │   ├── Containerfile    # Podman container definition
-│   │   ├── package.json     # Node.js dependencies
-│   │   ├── server.js        # Main server file
-│   │   └── .env.example     # Environment variables template
-│   │
-│   └── cms-frontend/        # Frontend (HTML/CSS/JS)
-│       ├── css/
-│       │   └── style.css    # Stylesheet
-│       ├── js/
-│       │   ├── api.js       # API client
-│       │   ├── auth.js      # Authentication logic
-│       │   ├── clients.js   # Client management logic
-│       │   └── app.js       # Main application controller
-│       └── index.html       # Main HTML file
-│
-├── podman-compose.yml   # Podman Compose configuration
-└── README.md            # This file
-```
-
----
+- **Backend**: Node.js with Express.js
+- **Frontend**: HTML, CSS, vanilla JavaScript
+- **Database**: PostgreSQL
+- **Containerization**: Podman (daemonless, rootless)
+- **Authentication**: JWT-based
 
 ## Prerequisites
 
-Before setting up the CMS, ensure you have the following installed:
-
-1. **Podman** - Container runtime
-   - Installation: https://podman.io/getting-started/installation
-   
-2. **podman-compose** - Container orchestration
-   - Installation: `pip install podman-compose` or use `podman compose` (if available)
-
-3. **Node.js** (optional, for local development)
-   - Version 18 or higher
-   - Installation: https://nodejs.org/
-
----
+- Podman installed and running
+- podman-compose installed (or use `podman compose` command)
+- A web browser for accessing the frontend
 
 ## Quick Start
 
-### 1. Clone or Download the Project
+### 1. Clone the Repository
 
 ```bash
-# Navigate to the project directory
-cd cms
+git clone https://github.com/05n1fty68/CMS.git
+cd CMS
 ```
 
-### 2. Start the Backend Services
-
-Start PostgreSQL and the backend API using Podman Compose:
+### 2. Start Backend Services with Podman
 
 ```bash
+# Build and start containers
 podman-compose up -d
+
+# Or if using podman compose (newer versions)
+podman compose up -d
 ```
 
 This will:
-- Build the backend container image
 - Start PostgreSQL database container
-- Start the backend API container
-- Initialize the database schema
+- Build and start the CMS backend container
+- Initialize the database schema automatically
 
 ### 3. Access the Application
 
 - **Backend API**: http://localhost:3000
-- **Frontend**: Open `src/cms-frontend/index.html` in a web browser
+- **Frontend**: Open `src/frontend/index.html` in your web browser
+  - Or use a simple HTTP server:
+    ```bash
+    cd src/frontend
+    python -m http.server 8080
+    ```
+    Then access: http://localhost:8080
 
-**Note**: For the frontend to work properly, you may need to serve it through a local web server due to CORS restrictions. You can use:
+### 4. Create Admin User
 
+After starting the containers, create an admin user using one of these methods:
+
+**Option 1: Use the registration endpoint**
+- Register a new user via the frontend
+- Then update the user role to 'admin' in the database
+
+**Option 2: Use the create-admin script (recommended)**
 ```bash
-# Using Python 3
-cd src/cms-frontend
-python -m http.server 8080
+# Access the backend container
+podman-compose exec cms-backend sh
 
-# Or using Node.js (if you have http-server installed)
-npx http-server -p 8080
+# Run the script (inside container)
+node scripts/create-admin.js admin@cms.local admin123
+
+# Or run locally if you have Node.js installed
+cd src/backend
+npm install
+node scripts/create-admin.js admin@cms.local admin123
 ```
 
-Then access: http://localhost:8080
-
-### 4. Default Credentials
-
-**Important**: The seed data includes placeholder users. You should:
-
-1. Register a new user via the registration endpoint, OR
-2. Create a user directly in the database
-
-To create a user via API:
-
-```bash
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "admin@example.com",
-    "password": "admin123",
-    "name": "Admin User",
-    "role": "admin"
-  }'
-```
-
----
+**⚠️ IMPORTANT**: Change the default admin password immediately in production!
 
 ## Development Setup
 
 ### Backend Development
 
-1. **Install dependencies**:
-   ```bash
-   cd src/cms-backend
-   npm install
-   ```
+```bash
+cd src/backend
+npm install
+cp .env.example .env
+# Edit .env with your configuration
+npm run dev  # Uses nodemon for auto-reload
+```
 
-2. **Configure environment variables**:
-   ```bash
-   cp .env.example .env
-   # Edit .env with your database credentials
-   ```
+### Frontend Development
 
-3. **Run in development mode**:
-   ```bash
-   npm run dev
-   ```
+The frontend is static HTML/CSS/JS. Simply open `src/frontend/index.html` in a browser or use a local HTTP server.
 
 ### Database Management
 
-**Access PostgreSQL container**:
 ```bash
+# Access PostgreSQL container
 podman-compose exec cms-db psql -U cms_user -d cms_db
-```
 
-**View database logs**:
-```bash
+# View backend logs
+podman-compose logs -f cms-backend
+
+# View database logs
 podman-compose logs -f cms-db
 ```
 
-**Reset database** (WARNING: This will delete all data):
-```bash
-podman-compose down -v
-podman-compose up -d
-```
+## Project Structure
 
----
+```
+CMS/
+├── src/
+│   ├── backend/          # Node.js/Express backend
+│   │   ├── config/       # Configuration files
+│   │   ├── database/    # Database schema and migrations
+│   │   ├── middleware/  # Express middleware
+│   │   ├── models/      # Database models
+│   │   ├── routes/      # API routes
+│   │   └── server.js    # Main server file
+│   └── frontend/        # HTML/CSS/JS frontend
+│       ├── css/         # Stylesheets
+│       ├── js/          # JavaScript modules
+│       └── index.html   # Main HTML file
+├── Containerfile        # Podman container definition
+├── podman-compose.yml  # Podman Compose configuration
+└── README.md           # This file
+```
 
 ## API Endpoints
 
 ### Authentication
-
+- `POST /api/auth/login` - Login with email and password
 - `POST /api/auth/register` - Register new user
-- `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user (requires authentication)
+- `GET /api/auth/me` - Get current user info
 
 ### Clients
+- `GET /api/clients` - Get all clients (supports ?search= query parameter)
+- `GET /api/clients/:id` - Get client by ID
+- `POST /api/clients` - Create new client
+- `PUT /api/clients/:id` - Update client
+- `DELETE /api/clients/:id` - Soft delete client (admin only)
 
-- `GET /api/clients` - Get all clients (requires authentication)
-- `GET /api/clients/:id` - Get single client (requires authentication)
-- `POST /api/clients` - Create new client (requires authentication)
-- `PUT /api/clients/:id` - Update client (requires authentication)
-- `DELETE /api/clients/:id` - Soft delete client (requires admin role)
+### Dashboard
+- `GET /api/dashboard/stats` - Get dashboard statistics
 
-### Interactions (Partially Implemented)
+### Interactions (Placeholder)
+- `GET /api/interactions` - Returns placeholder data
+- `GET /api/interactions/:id` - Not implemented (501)
 
-- `GET /api/interactions` - Get all interactions (requires authentication)
-- `GET /api/interactions/client/:clientId` - Get interactions for a client (requires authentication)
-- `POST /api/interactions` - Create interaction (stubbed, returns 501)
-
-### Health Check
-
-- `GET /api/health` - API health status
-
----
-
-## Configuration
-
-### Environment Variables
+## Environment Variables
 
 Backend environment variables (set in `.env` or `podman-compose.yml`):
 
-- `DB_HOST` - Database host (default: `cms-db`)
-- `DB_PORT` - Database port (default: `5432`)
-- `DB_NAME` - Database name (default: `cms_db`)
-- `DB_USER` - Database user (default: `cms_user`)
-- `DB_PASSWORD` - Database password (default: `cms_password`)
-- `JWT_SECRET` - JWT signing secret (CHANGE IN PRODUCTION)
-- `PORT` - Backend server port (default: `3000`)
-- `NODE_ENV` - Environment (development/production)
+- `DB_HOST` - PostgreSQL host (default: localhost)
+- `DB_PORT` - PostgreSQL port (default: 5432)
+- `DB_NAME` - Database name (default: cms_db)
+- `DB_USER` - Database user (default: cms_user)
+- `DB_PASSWORD` - Database password (default: cms_password)
+- `JWT_SECRET` - JWT secret key (change in production!)
+- `JWT_EXPIRES_IN` - Token expiration (default: 24h)
+- `PORT` - Server port (default: 3000)
+- `CORS_ORIGIN` - CORS allowed origin (default: http://localhost:8080)
 
----
+## Podman Commands
 
-## Management Commands
-
-### Start services
 ```bash
+# Start services
 podman-compose up -d
-```
 
-### Stop services
-```bash
+# Stop services
 podman-compose down
-```
 
-### View logs
-```bash
-# Backend logs
+# View logs
 podman-compose logs -f cms-backend
-
-# Database logs
 podman-compose logs -f cms-db
 
-# All logs
-podman-compose logs -f
-```
-
-### Rebuild backend image
-```bash
+# Rebuild backend image
 podman-compose build cms-backend
 podman-compose up -d
-```
 
-### Access backend container
-```bash
+# Access backend container
 podman-compose exec cms-backend sh
-```
 
----
+# Access database
+podman-compose exec cms-db psql -U cms_user -d cms_db
+```
 
 ## Troubleshooting
 
 ### Backend won't start
 - Check logs: `podman-compose logs cms-backend`
 - Ensure database is ready: `podman-compose logs cms-db`
-- Verify network connectivity between containers
+- Verify environment variables are correct
 
 ### Database connection issues
 - Ensure PostgreSQL container is running: `podman-compose ps`
 - Check database logs: `podman-compose logs cms-db`
-- Verify environment variables are correct
+- Verify database credentials in `podman-compose.yml`
 
 ### Port conflicts
-- If port 3000 is in use, modify the port mapping in `podman-compose.yml`:
-  ```yaml
-  ports:
-    - "3001:3000"  # Change 3001 to your preferred port
-  ```
+- If port 3000 is in use, modify the port mapping in `podman-compose.yml`
+- If port 5432 is in use, modify the PostgreSQL port mapping
 
 ### Frontend can't connect to backend
-- Ensure backend is accessible: `curl http://localhost:3000/api/health`
-- Check CORS settings in backend
-- Verify API_BASE_URL in `cms-frontend/js/api.js`
-
----
+- Ensure backend is running: `curl http://localhost:3000/health`
+- Check CORS configuration in backend
+- Verify API_BASE_URL in `src/frontend/js/api.js`
 
 ## Security Notes
 
-⚠️ **IMPORTANT FOR PRODUCTION**:
-
-- Default database credentials are for development only
-- Change all passwords and secrets before production use
-- Use strong JWT secrets
+- Default credentials are for development only
+- Change all passwords and secrets in production
+- Use environment variables for sensitive data
 - Enable HTTPS in production
-- Implement rate limiting
-- Add input validation and sanitization
-- Review and harden security settings
+- Regularly update dependencies
 
----
+## Future Enhancements (For Final Submission)
 
-## Planned Enhancements (Final Version)
-
-The following features are planned for the final submission:
-
-1. **Complete Interaction Tracking**
-   - Full CRUD operations
-   - Interaction types (call, email, meeting, etc.)
-   - Timeline view
-
-2. **Advanced Search & Filtering**
-   - Client search by name, email, phone
-   - Filter by date, tags, or custom fields
-   - Pagination for large datasets
-
-3. **Enhanced Reporting**
-   - Client statistics and analytics
-   - Export functionality (CSV, PDF)
-   - Dashboard charts and graphs
-
-4. **Improved User Experience**
-   - Better error handling and user feedback
-   - Loading states and animations
-   - Responsive design improvements
-
-5. **Additional Features**
-   - Client tags and categories
-   - File attachments
-   - Email notifications
-   - Activity logging
-
----
+- Complete interaction tracking system
+- Advanced search and filtering
+- Comprehensive reporting and export
+- Enhanced role-based access control
+- Email notifications
+- Activity logging and audit trail
+- Data backup and restore
+- API rate limiting
+- Input validation enhancements
+- Unit and integration tests
 
 ## License
 
-This project is developed as a Final Year Project for educational purposes.
+MIT License - See LICENSE file for details
+
+## Contributing
+
+This is a Final Year Project for Diploma in Information Technology. Contributions and feedback are welcome!
+
+## Support
+
+For issues and questions, please open an issue on the GitHub repository.
 
 ---
 
-## Contact & Support
-
-For questions or issues related to this interim version, please refer to the project documentation or contact the development team.
-
----
-
-## Acknowledgments
-
-This project uses the following open-source technologies:
-- Node.js and Express.js
-- PostgreSQL
-- Podman
-- Various npm packages (see `package.json`)
-
----
-
-**Version**: 0.1.0-interim  
-**Last Updated**: Interim Phase  
-**Status**: Development - Approximately 50-60% Complete
+**Note**: This project is designed for educational purposes and interim demonstration. Production deployment requires additional security hardening and testing.
 

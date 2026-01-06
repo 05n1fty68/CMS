@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMS - Client Management System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page (shown by default) -->
+        <div id="login-page" class="page active">
+            <div class="login-container">
+                <h1>Client Management System</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <div id="login-error" class="error-message"></div>
+                </form>
+                <p class="register-link">
+                    Don't have an account? <a href="#" id="show-register">Register</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page">
+            <div class="login-container">
+                <h1>Register</h1>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" id="register-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Password</label>
+                        <input type="password" id="register-password" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                    <div id="register-error" class="error-message"></div>
+                </form>
+                <p class="register-link">
+                    Already have an account? <a href="#" id="show-login">Login</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page">
+            <nav class="navbar">
+                <div class="nav-brand">CMS</div>
+                <div class="nav-links">
+                    <a href="#" data-page="dashboard" class="nav-link active">Dashboard</a>
+                    <a href="#" data-page="clients" class="nav-link">Clients</a>
+                    <span class="nav-user" id="nav-user-email"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <h1>Dashboard</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total Clients</h3>
+                        <p class="stat-value" id="stat-clients">-</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Users</h3>
+                        <p class="stat-value" id="stat-users">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clients Page -->
+        <div id="clients-page" class="page">
+            <nav class="navbar">
+                <div class="nav-brand">CMS</div>
+                <div class="nav-links">
+                    <a href="#" data-page="dashboard" class="nav-link">Dashboard</a>
+                    <a href="#" data-page="clients" class="nav-link active">Clients</a>
+                    <span class="nav-user" id="nav-user-email-2"></span>
+                    <button id="logout-btn-2" class="btn btn-secondary">Logout</button>
+                </div>
+            </nav>
+
+            <div class="container">
+                <div class="page-header">
+                    <h1>Clients</h1>
+                    <button id="add-client-btn" class="btn btn-primary">Add Client</button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="search-bar">
+                    <input type="text" id="client-search" placeholder="Search clients...">
+                    <button id="search-btn" class="btn btn-secondary">Search</button>
+                </div>
+
+                <!-- Client List -->
+                <div id="clients-list" class="clients-list">
+                    <p>Loading clients...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Client Modal -->
+        <div id="client-modal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2 id="modal-title">Add Client</h2>
+                <form id="client-form">
+                    <input type="hidden" id="client-id">
+                    <div class="form-group">
+                        <label for="client-name">Name *</label>
+                        <input type="text" id="client-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-email">Email</label>
+                        <input type="email" id="client-email">
+                    </div>
+                    <div class="form-group">
+                        <label for="client-phone">Phone</label>
+                        <input type="tel" id="client-phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="client-notes">Notes</label>
+                        <textarea id="client-notes" rows="4"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-client-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                    <div id="client-form-error" class="error-message"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/clients.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
