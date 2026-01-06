@@ -1,8 +1,6 @@
 # Podman Compose configuration for CMS
 # This configuration runs the backend service with PostgreSQL
 
-version: '3.8'
-
 services:
     # PostgreSQL Database Service
     cms-db:

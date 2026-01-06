@@ -59,6 +59,8 @@
                 <div class="nav-links">
                     <a href="#" data-page="dashboard" class="nav-link active">Dashboard</a>
                     <a href="#" data-page="clients" class="nav-link">Clients</a>
+                </div>
+                <div class="nav-user-section">
                     <span class="nav-user" id="nav-user-email"></span>
                     <button id="logout-btn" class="btn btn-secondary">Logout</button>
                 </div>
@@ -86,6 +88,8 @@
                 <div class="nav-links">
                     <a href="#" data-page="dashboard" class="nav-link">Dashboard</a>
                     <a href="#" data-page="clients" class="nav-link active">Clients</a>
+                </div>
+                <div class="nav-user-section">
                     <span class="nav-user" id="nav-user-email-2"></span>
                     <button id="logout-btn-2" class="btn btn-secondary">Logout</button>
                 </div>
@@ -141,9 +145,28 @@
                 </form>
             </div>
         </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirm-modal" class="modal">
+            <div class="modal-content modal-confirm">
+                <h2 id="confirm-title">Confirm Action</h2>
+                <p id="confirm-message">Are you sure you want to proceed?</p>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="confirm-cancel-btn">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-ok-btn">Confirm</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Toast -->
+        <div id="notification-toast" class="toast">
+            <span id="toast-message"></span>
+            <button id="toast-close" class="toast-close">&times;</button>
+        </div>
     </div>
 
     <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/clients.js"></script>
     <script src="js/dashboard.js"></script>

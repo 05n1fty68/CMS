@@ -75,7 +75,8 @@ class Clients {
         document.getElementById('client-phone').value = client.phone || '';
         document.getElementById('client-notes').value = client.notes || '';
       } catch (error) {
-        alert(`Error loading client: ${error.message}`);
+        Utils.showError(`Error loading client: ${error.message}`);
+        this.hideClientForm();
         return;
       }
     } else {
@@ -107,15 +108,32 @@ class Clients {
    * @param {number} clientId - Client ID
    */
   static async deleteClient(clientId) {
-    if (!confirm('Are you sure you want to delete this client?')) {
+    // Get client name for confirmation message
+    let clientName = 'this client';
+    try {
+      const response = await API.getClient(clientId);
+      clientName = response.client.name;
+    } catch (error) {
+      // If we can't get client name, use generic message
+    }
+
+    // Show confirmation dialog
+    const confirmed = await Utils.confirm(
+      `Are you sure you want to delete "${clientName}"? This action cannot be undone.`,
+      'Delete Client',
+      'Delete'
+    );
+
+    if (!confirmed) {
       return;
     }
 
     try {
       await API.deleteClient(clientId);
+      Utils.showSuccess(`Client "${clientName}" has been deleted successfully.`);
       await this.loadClients();
     } catch (error) {
-      alert(`Error deleting client: ${error.message}`);
+      Utils.showError(`Error deleting client: ${error.message}`);
     }
   }
 
@@ -151,6 +169,8 @@ class Clients {
       }
 
       this.hideClientForm();
+      const action = clientId ? 'updated' : 'created';
+      Utils.showSuccess(`Client ${action} successfully!`);
       await this.loadClients();
     } catch (error) {
       errorDiv.textContent = error.message;

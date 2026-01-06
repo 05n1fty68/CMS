@@ -45,8 +45,9 @@ This project is currently at the **INTERIM development phase** (approximately 50
 ## Prerequisites
 
 - Podman installed and running
-- podman-compose installed (or use `podman compose` command)
 - A web browser for accessing the frontend
+
+**Note**: Use `podman compose` (with space) command. If you have `podman-compose` (with hyphen) installed, you can use that instead.
 
 ## Quick Start
 
@@ -61,10 +62,7 @@ cd CMS
 
 ```bash
 # Build and start containers
-podman-compose up -d
-
-# Or if using podman compose (newer versions)
-podman compose up -d
+podman compose -f podman-compose.yml up -d
 ```
 
 This will:
@@ -94,7 +92,7 @@ After starting the containers, create an admin user using one of these methods:
 **Option 2: Use the create-admin script (recommended)**
 ```bash
 # Access the backend container
-podman-compose exec cms-backend sh
+podman compose -f podman-compose.yml exec cms-backend sh
 
 # Run the script (inside container)
 node scripts/create-admin.js admin@cms.local admin123
@@ -127,13 +125,13 @@ The frontend is static HTML/CSS/JS. Simply open `src/frontend/index.html` in a b
 
 ```bash
 # Access PostgreSQL container
-podman-compose exec cms-db psql -U cms_user -d cms_db
+podman compose -f podman-compose.yml exec cms-db psql -U cms_user -d cms_db
 
 # View backend logs
-podman-compose logs -f cms-backend
+podman compose -f podman-compose.yml logs -f cms-backend
 
 # View database logs
-podman-compose logs -f cms-db
+podman compose -f podman-compose.yml logs -f cms-db
 ```
 
 ## Project Structure
@@ -196,24 +194,24 @@ Backend environment variables (set in `.env` or `podman-compose.yml`):
 
 ```bash
 # Start services
-podman-compose up -d
+podman compose -f podman-compose.yml up -d
 
 # Stop services
-podman-compose down
+podman compose -f podman-compose.yml down
 
 # View logs
-podman-compose logs -f cms-backend
-podman-compose logs -f cms-db
+podman compose -f podman-compose.yml logs -f cms-backend
+podman compose -f podman-compose.yml logs -f cms-db
 
 # Rebuild backend image
-podman-compose build cms-backend
-podman-compose up -d
+podman compose -f podman-compose.yml build cms-backend
+podman compose -f podman-compose.yml up -d
 
 # Access backend container
-podman-compose exec cms-backend sh
+podman compose -f podman-compose.yml exec cms-backend sh
 
 # Access database
-podman-compose exec cms-db psql -U cms_user -d cms_db
+podman compose -f podman-compose.yml exec cms-db psql -U cms_user -d cms_db
 ```
 
 ## Troubleshooting

@@ -74,9 +74,20 @@ class Auth {
   /**
    * Logout user
    */
-  static logout() {
-    this.clearAuth();
-    window.location.reload();
+  static async logout() {
+    const confirmed = await Utils.confirm(
+      'Are you sure you want to logout?',
+      'Logout',
+      'Logout'
+    );
+
+    if (confirmed) {
+      this.clearAuth();
+      Utils.showInfo('You have been logged out successfully.');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
   }
 
   /**

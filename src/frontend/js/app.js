@@ -209,6 +209,7 @@ class App {
 
     try {
       await Auth.login(email, password);
+      Utils.showSuccess('Login successful! Welcome back.');
       this.showPage('dashboard');
       this.setupAuthenticatedApp();
     } catch (error) {
@@ -233,6 +234,7 @@ class App {
 
     try {
       await Auth.register(email, password);
+      Utils.showSuccess('Registration successful! Welcome to CMS.');
       this.showPage('dashboard');
       this.setupAuthenticatedApp();
     } catch (error) {

@@ -5,7 +5,8 @@ This directory contains Podman Compose configuration for running the CMS backend
 ## Prerequisites
 
 - Podman installed and running
-- podman-compose installed (or use `podman compose` command)
+
+**Note**: Use `podman compose` (with space) command. If you have `podman-compose` (with hyphen) installed, you can use that instead.
 
 ## Services Included
 
@@ -28,12 +29,7 @@ This configuration runs the following services:
 
 1. **Start the services:**
    ```bash
-   podman-compose up -d
-   ```
-
-   Or with newer Podman versions:
-   ```bash
-   podman compose up -d
+   podman compose -f podman-compose.yml up -d
    ```
 
 2. **Access the application:**
@@ -65,39 +61,39 @@ All database data is stored in the `cms_data` volume, which persists across cont
 
 ### Start services
 ```bash
-podman-compose up -d
+podman compose -f podman-compose.yml up -d
 ```
 
 ### Stop services
 ```bash
-podman-compose down
+podman compose -f podman-compose.yml down
 ```
 
 ### View logs
 ```bash
-podman-compose logs -f cms-backend
-podman-compose logs -f cms-db
+podman compose -f podman-compose.yml logs -f cms-backend
+podman compose -f podman-compose.yml logs -f cms-db
 ```
 
 ### Rebuild backend image
 ```bash
-podman-compose build cms-backend
-podman-compose up -d
+podman compose -f podman-compose.yml build cms-backend
+podman compose -f podman-compose.yml up -d
 ```
 
 ### Access database
 ```bash
-podman-compose exec cms-db psql -U cms_user -d cms_db
+podman compose -f podman-compose.yml exec cms-db psql -U cms_user -d cms_db
 ```
 
 ### Access backend container
 ```bash
-podman-compose exec cms-backend sh
+podman compose -f podman-compose.yml exec cms-backend sh
 ```
 
 ### Check service status
 ```bash
-podman-compose ps
+podman compose -f podman-compose.yml ps
 ```
 
 ## Development Setup
@@ -122,19 +118,19 @@ For development with live code changes:
 
 3. **Keep database running:**
    ```bash
-   podman-compose up -d cms-db
+   podman compose -f podman-compose.yml up -d cms-db
    ```
 
 ## Troubleshooting
 
 ### Backend won't start
-- Check logs: `podman-compose logs cms-backend`
-- Ensure database is ready: `podman-compose logs cms-db`
+- Check logs: `podman compose -f podman-compose.yml logs cms-backend`
+- Ensure database is ready: `podman compose -f podman-compose.yml logs cms-db`
 - Verify network connectivity between containers
 
 ### Database connection issues
-- Ensure PostgreSQL container is running: `podman-compose ps`
-- Check database logs: `podman-compose logs cms-db`
+- Ensure PostgreSQL container is running: `podman compose -f podman-compose.yml ps`
+- Check database logs: `podman compose -f podman-compose.yml logs cms-db`
 - Verify environment variables are correct
 - Wait a few seconds after starting for database to initialize
 
@@ -153,10 +149,10 @@ For development with live code changes:
 
 ### Database schema not initialized
 - The schema is automatically initialized on first database start
-- Check database logs: `podman-compose logs cms-db`
+- Check database logs: `podman compose -f podman-compose.yml logs cms-db`
 - Manually run schema if needed:
   ```bash
-  podman-compose exec cms-db psql -U cms_user -d cms_db -f /docker-entrypoint-initdb.d/schema.sql
+  podman compose -f podman-compose.yml exec cms-db psql -U cms_user -d cms_db -f /docker-entrypoint-initdb.d/schema.sql
   ```
 
 ## Security Notes
@@ -179,7 +175,7 @@ This Podman configuration:
 To remove all containers and volumes:
 
 ```bash
-podman-compose down -v
+podman compose -f podman-compose.yml down -v
 ```
 
 **Warning**: This will delete all database data!
